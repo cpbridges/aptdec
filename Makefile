@@ -1,18 +1,19 @@
 
-INCLUDES=-I.
+INCLUDES=-I. -I/usr/local/include
 
-CFLAGS= -g -Wall $(INCLUDES)
+CFLAGS= -O3 -Wall $(INCLUDES)
 
-OBJS= main.o input.o image.o dsp.o filter.o reg.o fcolor.o
+OBJS= main.o image.o dsp.o filter.o reg.o fcolor.o
 
 atpdec:	$(OBJS)
-	$(CC) -o $@ $(OBJS) -lm -lsndfile -lpng -lasound
+	$(CC) -o $@ $(OBJS) -lm -lsndfile -lpng -L/usr/local/lib
 
-main.o:	main.c version.h temppalette.h gvipalette.h offsets.h
+main.o:	main.c version.h
 dsp.o:	dsp.c filtercoeff.h filter.h
 filter.o: filter.c filter.h
-image.o: image.c satcal.h offsets.h
-fcolor.o : fcolor.c offsets.h
+image.o: image.c satcal.h
+fcolor.o : fcolor.c
+dres.o : dres.c
 
 clean:
 	rm -f *.o atpdec
